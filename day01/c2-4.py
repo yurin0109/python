@@ -3,6 +3,15 @@ string_a = "age:{}".format(10)
 print( string_a ) # age:10
 string_b = "{} {} {}".format( 1, "안녕" , True )
 print( string_b )
+
+# 연습
+string_a = "age:{}".format(10)
+string_u = "하하하하하하하하{}".format("진짜하기싫다")
+string_thankyou = "dddddddddd{}".format("디디디디디디디디")
+print(string_a)
+print(string_u)
+print(string_thankyou)
+
 # 주의할 점 : {} 개수와 값의 개수는 일치해야 함.
 # p.137~ p.140 생략
 a = "Hello"

@@ -72,5 +72,12 @@ for element in list_u :
 for char in "안녕하세요" : # 문자열도 리스트/배열이다.
     print( char )
 
+
+list = [ 2,34,6,1 ]
+for i in list :
+    print( i )
+
+
 # 전개 연산자 , 리스트명 앞에 * 붙인다
 print( *list_u )
+
