@@ -26,10 +26,12 @@ print( 'name' in dic_a ) # True
 print( dic_a['hehe'] )
 print( dic_a.get( 'hehe' ) ) # None
 
+
 # 8. for 반복문 과 딕셔너리 , 딕셔너리 내 key 하나씩 for에서 순회
 # for key반복변수 in 딕셔너리명 :
 #    실행코드
 for key in dic_a :
     print( dic_a.get(key) ) #방법1
     print( dic_a[key] ) #방법2
+
 
