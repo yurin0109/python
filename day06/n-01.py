@@ -57,7 +57,7 @@ x = np.array( ['apple' , 'banana' , 'cherry' ] , dtype=np.bytes_ )
 
 # 10] 타입변환 . .astype( np.새로운타입 )
 x = np.array( [1.5 , 2.5 , 3.5] , dtype = np.float32 )
-x.astype( np.int32 )
+y = x.astype( np.int32 )
 print( y )
 
 # * 타입 지정한 이유:
