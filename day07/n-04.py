@@ -12,7 +12,7 @@ z = np.concatenate( (x,y) , axis = 0 ) # axios = 0 세로방향 = 1 가로방향
 print( z ) 
 z = np.concatenate( (x,y) , axis= 1 )
 print( z )
- 
+
 # 3] 정렬 , .sort(배열) : 오름차순 , [ : : -1] 내림차순
 x = np.array( [3,1,4,2,5] )
 print( np.sort(x) )
