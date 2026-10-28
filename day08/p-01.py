@@ -87,16 +87,40 @@ df['passed'] = False
 df.loc[ df['score'] > 70 , 'passed' ] = True
 print( df )
       
+# 12] 컬럼명 변경 , df.rename()
+# df = df.rename( colums={ '기존열이름' : '새로운컬럼명'} )
+df.rename( columns={ 'city' : '도시' , 'age' : '나이'} )
+df.info()
 
+# 13] 집계 , df.describe() , df['열이름'].통계함수()
+print( df.describe() )
+print( df['나이'].sum() )
+print( df['passed'].value_counts() ) # 자료 빈도 수
 
+# 14] 합치기/병합
+df1 = pd.DataFrame( {'ID' : [1,2,3] , 'Score' : [90,80,85]} )
+df2 = pd.DataFrame( {'ID' : [4,5,6] , 'Score' : [75,95,88]} )
+# 연결 pd.concat( [df1 , df1] , axis=0세로연결1가로연결 , ignore_index=True )
+new_df = pd.concat( [df1 , df2] , axis=0 , ignore_index=True )
+print( new_df )
+new_df = pd.concat( [df1 , df2] , axis= 1 )
+print( new_df )
+# 병합 : 교집합(공통 컬럼) , pd.merge( df1 , df2 , on = '공통컬럼명' , how='inner/outer/left/right' )
+df_info = pd.DataFrame({'ID': [1, 2, 3], 'Name': ['Ant', 'Bee', 'Cat']})
+df_score = pd.DataFrame({'ID': [2, 3, 4], 'Score': [88, 92, 85]}) 
+pd.merge( df_info , df_score , on = 'ID' , how='inner' ) # 교집합
+print( new_df )
+pd.merge( df_info , df_score , on = 'ID' , how='outer' ) # 교집합
+print( new_df ) # NaN : 정의가 없는 자료 # 숫자가 아니다.
 
-
-
-
-
-
-
-
-
-
- 
+# 15] 정렬 , df.sort_values( by = '컬럼명' , ascending=True오름차순False내림차순)
+df = pd.DataFrame({ 'name' : ['Ant' , 'Bee' , 'Cat' , 'Dog'],
+    'age': [27, 27, 22, 32 ], 'score': [88 , 95 , 85 , 90] })
+new_df = df.sort_values( by = 'age' , ascending=False )
+print( new_df )
+# 다중정렬은 [] 리스트 사용 , *age기준으로 1차 정렬 후 동일한 age끼리 score 기준으로 2차 정렬
+new_df = df.sort_values( by = ['age' , 'score' ] , ascending=[True,False] )
+print( new_df )
+# 컬럼명도 정렬이 가능하다. axis = 0행/1열
+new_df = df.sort_index( axis=1 , ascending=True )
+print( new_df )
