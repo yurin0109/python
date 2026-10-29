@@ -25,59 +25,59 @@ raw_data = [
 
 df = pd.DataFrame(raw_data)
 
-# 1. 중복 행 제거 , df.drop_duplicates().reset_index( drop=True ) , 
-# df = df.drop_duplicates() # 인덱스 유지
-df = df.drop_dupliicates().reset_index( drop=True ) # 인덱스 초기화
-# 2. 타입변환 , df['컬럼명'].astype( 변환할타입 )
-df['사번'] = df['사번'].astype(str)
 df.info()
-# 3. 공백 문자()는 결측(NaN) 만들기 , 문자열.strip() 앞뒤 여백/공백 제거 함수
+# 1. 중복 행 제거  , df.drop_duplicates().reset_index( drop=True ) , 
+# df = df.drop_duplicates() # 인덱스 유지
+df = df.drop_duplicates( ).reset_index( drop=True ) # 인덱스 초기화
+# 2. 타입변환 ,  df['컬럼명'].astype( 변환할타입 )
+df['사번'] = df['사번'].astype(str)
+# 3. 공백 문자( ' ' , '' )는 결측(NaN) 만들기 , 
 # 문자열.strip() 앞뒤 여백/공백 제거 함수
-# 문자열.replace( '기존문자' , '새로운문자' ) 문자열 내 기본 
+# 문자열.replace( '기존문자' , '새로운문자' ) 문자열내 기본문자가 존재하면 새로운문자로 치환
 df['이름'] = df['이름'].str.strip()
 df['부서'] = df['부서'].str.strip().replace( '' , None )
-# 4. 결측치(NaN) 확인 , print( df.isnull().sum() )
+# 4. 결측치(NaN) 확인 , df.isnull().sum()
 print( df.isnull().sum() )
-# 5. 결측치 행/열 제거 , 결측이 포함되면 행/열 자체 제거 , df.dropna( axis=0/1 )
-new_df = df.dropna( axis=0 )
+# 5. 결측이 포함된 행/열 자체 제거 , df.dropna( axis=0/1 )
+new_df = df.dropna( axis= 0 )
 new_df.info()
-
-# 6. 결측값 채우기 , df['컬럼명'].fillna() , 표본이 부족하거나 손실 막기 위해 대표값
-# 나이 = 수치 , 부서 = 범주
+# 6. 결측값 채우기, df['컬럼명'].fillna() , 표본이 부족 하거나 손실 막기 위해 대표값 채우기( 중앙값(수치), 최빈값(범주) )
+# 나이 = 수치/중앙값 , 부서 = 범주/최빈값  
 df['나이'] = df['나이'].fillna( df['나이'].median() ) # 이상치 최소화
 df['부서'] = df['부서'].fillna( df['부서'].mode()[0] ) # df['컬럼명'].mode()[0] 최빈값
 print( df )
+# 7. 지징된 임계 범위 기준으로 강제 조정 , 임계범위 벗어나면 최솟값(18)/최댓값(60)으로 조정
+df['나이'] = df['나이'].clip( lower=18 , upper=60 ) 
 
-# 7. 지정된 임계 범위 기준으로 강제 조정 , 임계범위 벗어나면 최솟값(18)/최댓값(60)으로 조정
-df['나이'] = df['나이'].clip( lower=18 , upper=60 )
+# 8. 연속형 구간 기준으로 범주로 변환 , pd.cut( df['컬럼명'] , bins=[구간범위] , labels=[범주명] )
+bins = [ 0 , 20 , 30 , 40 ] # 구간 
+labels = [ '청년기' , '도약기' , '성숙기'] # 구간에 따른 범주 정의 
+# 0 ~ 20 청년기  / 21 ~ 30 도약기 / 31~40 성숙기
+df['연령그룹'] = pd.cut( df['나이'] , bins= bins , labels= labels  )
 
-# 8. 연속형 구간 기준으로 범주로 변환 , pd.cut( df['컬럼명'] , bins=[구간범위] , lables=[범주명] )
-bins = [ 0 , 20 , 30 , 40 ] # 구간
-labels = [ '청년기' , '도약기' , '성숙기' ] # 구간에 따른 범주 정의
-# 0 ~ 20 청년기 / 21 ~ 30 도약기 / 31 ~ 40 성숙기
-df['연령그룹'] = pd.cut( df['나이'] , bins = bins , labels = labels )
-
-# 9. 다양한 날짜형식( yyyy-mm , yyyy/mm , yyyy.mm 등 ) 표준 날짜 변환 함수 , pd.to_datetime()
+# 9. 다양한 날짜형식( yyyy-mm , yyyy/mm , yyyy.mm 등 ) 표준 날짜 변환 함수 , pd.to_datetime( )
 df['입사일'] = pd.to_datetime( df['입사일'] )
-print( df['입사일'].dt.year )
-# .dt.year 연도추출 , dt.month 월추출 , day 일추출 , day_name() 요일 
+print( df['입사일'].dt.year ) 
+# .dt.year 연도 , dt.month 월 , day 일 , day_weekday 요일( 0~6 )
+# .dt.hour 시 , dt.minute 분 , dt.second 초
 
-# 10. 그룹화 집계 , df.groupby( ['그룹컬럼명'] )[ '집계컬럼명' ].집계함수()
-new_df = df.groupby( '부서' )[ '나이' ].mean() # 부서별 나이 평균
-new_df = df.groupby( ['부서' , '연령그룹'] )['나이'].mean() # 다중 그룹
-# 다중 집계 , .agg( 새로운컬럼명 = ('기준컬럼명' , '집계함수먕') )
-new_df = df.groupby( '부서' ).agg(
-    인원수=( '사번' , 'count' ),
-    평균나이=( '나이' , '')
-
+# 10. 그룹화 집계 , df.groupby( ['그룹컬럼명'] )['집계컬럼명'].집계함수()
+new_df = df.groupby( '부서' )['나이'].mean() # 부서별 나이 평균 
+new_df = df.groupby( ['부서','연령그룹'] )['나이'].mean() # 다중 그룹 
+# 다중 집계 ,   .agg( 새로운컬럼명 = ('기준컬럼명' , '집계함수명') )
+new_df = df.groupby( '부서' ).agg(  
+    인원수=( '사번' , 'count'),
+    평균나이 = ( '나이' , 'mean' ) ,
+    최고령나이 = ( '나이' , 'max') 
 )
+print( new_df ) # 부서별 인원수/평균나이/최고령나이 
 
-# 정규화: ( x ~ 최솟값 ) / ( 최댓값 - 최솟값 )
-# 이유: 0 ~ 1 범위로 만들기 , 서로 다른 속성들의 간의 이상치/왜곡 방지
-# 예] 나이 : 0 ~ 150 / 연봉 : 0 ~ 30000000000
+# 정규화: ( x - 최솟값 ) / (최댓값 - 최솟값 )
+# 이유 : 0 ~ 1 범위로 만들기 , 서로 다른 속성들의 간의 이상치/왜곡 방지 
+# 예] 나이 : 0 ~ 150   /  연봉 : 0 ~ 3000000000000
 
-# 원-핫인코딩 : pd.get_dummies( df , columns = [ 컬럼명] , dtype=int )
+# 원-핫인코딩 : pd.get_dummies( df , columns = [ 컬럼명 ] , dtype=int )
 # 이유: 범주(문자) 이해할 수 있는 이진(0/1) 로 변환 , 0/1
-#  예] 개발부=0 , 정보보호부=1 , 기술부=0
-new_df = pd.get_dummies( df , columns=['부서'] , dtype=int )
+# 예] 개발부=0 , 정보보호부=1 , 기술부 = 0 
+new_df = pd.get_dummies( df , columns= ['부서'] , dtype=int)
 print( new_df )
