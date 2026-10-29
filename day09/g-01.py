@@ -29,4 +29,57 @@ plt.grid( True ) # 6) 구분선
 plt.legend() # 7) 범례 표시
 # plt # 맷플롯립 별칭
 plt.show() # 차트실행
- 
+
+# 2] 막대 차트(비교) , 선 차트(추세) plt.plot
+classes = ['Cat', 'Dog', 'Bird', 'Fish']
+counts = [120, 150, 80, 45]
+# 1) plt.bar( x값 , y값 , color=[ 색상 ] , width=막대크기 )
+bars = plt.bar( classes , counts , color=[ '#222222' , '#444444' , '#666666' , '#888888'] , width=0.5 )
+# 2) 막대 값 레이블
+# plt.bar_label( 막대차트변수 , padding=막대와레이블간격 , fontsize=폰트크기 )
+plt.bar_label( bars , padding=3 , fontsize=8 )
+plt.title( '클래스별 샘플수' )
+plt.xlabel('클래스')
+plt.ylabel('샘플 수')
+plt.grid( True , alpha=0.5 ) # alpha = "투명도"
+plt.show()
+
+# 3] 산점도( 상관관계 )
+x = [1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5]
+y = [2.3, 3.8, 5.1, 7.0, 7.8, 9.2, 10.5]
+# 1) 산점도
+# plt.scatter( x축값 , y축값 , color="색상" , s=점크기 , alpha=투명도 )
+plt.scatter( x , y , color = "purple" , s = 80 , alpha= 0.8 )
+plt.title( "공부시간과 시험점수의 상관관계" )
+plt.xlabel( "공부시간" )
+plt.ylabel( "시험점수" )
+plt.show()
+
+#  4] 히스토그램( 연속형 수치/값 분포 )
+import numpy as np
+# 평균 170을 중심으로 표준편차 5 만큼 퍼져 있는 종모양(가우시안분포) 난수 1000개
+heights = np.random.normal(loc=170, scale=5, size=1000)
+# 1) 히스토그램
+# plt.hist( 값 , bins="구간개수" )
+plt.hist( heights , bins=30 , edgecolor="pink")
+plt.xlabel( "키(cm)" )
+plt.ylabel( "빈도/분포 수" )
+plt.show() 
+
+# 5] 박스플롯( 분포 범위 내 이상치 )
+heights = np.random.normal(loc=170, scale=5, size=1000)
+data_with_outliers = np.append(heights, [210, 215, 120]) # 이상치
+# 1) plt.boxplot(  값 ) , 데이터들을 사분위수(25% 50% 75%) 표현 
+plt.boxplot( data_with_outliers )
+plt.show() 
+
+# 6] 한 창에 2개 이상 그래프 표현
+# fig , axs = plt.subplots( 행개수 , 열개수 , figsize = ( 가로 , 세로 ) )
+fig , axs = plt.subplots( 1 , 2 , figsize = ( 10 , 4 ) ) # 1줄(행) 차트 2개
+# 1행1열 차트 , axs[인덱스].차트종류()
+axs[0].plot( [1,2,3] , [4,5,6] )
+axs[0].set_title("서브1: 선그래프")
+# 1행2열 차트
+axs[1].bar( ['A' , 'B' , 'C'] , [30 , 15 , 40] )
+axs[1].set_title("서브2: 막대그래프")
+plt.show()
