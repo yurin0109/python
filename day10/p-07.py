@@ -26,13 +26,13 @@ async def 실습7() :
             await 페이지버튼리스트[ i - 1 ].click()    # 0 인덱스 부터 a 마크업 클릭이벤트
             await 페이지.wait_for_timeout( 3000 )
             # 9]
-            await 페이지.query_selector_all( '.list_with_upthumb_item' )
+            items = await 페이지.query_selector_all( '.list_with_upthumb_item' )
             for item in items :  
                 # p.title , .img_wrap>img , .star_wrap > p.num
                 영화제목 = await item.query_selector( '.title' )
                 영화제목 = await 영화제목.inner_text() if 영화제목 else "제목없음"
                 이미지링크 = await item.query_selector( '.img_wrap>img' )
-                이미지링크 = await 이미지링크.get_attribute() if 영화제목 else "제목없음"
+                이미지링크 = await 이미지링크.get_attribute( 'src' ) if 이미지링크 else "이미지없음"
                 전문가평점 = await item.query_selector( '.star_wrap > p.num' )
                 전문가평점 = await 전문가평점.inner_text() if 전문가평점 else "전문가평점없음"
                 print( 영화제목 , 이미지링크 , 전문가평점 )
@@ -51,4 +51,6 @@ asyncio.run( 실습7() )
 # 2-2 (요소 추출): 각 영화 카드 내부에서 아래 3가지 요소를 각각 수집한다.
 # 영화 제목 # 이미지 # 전문가 평점
 
-# 2-3 (데이터 적재): 수집된 데이터를 딕셔너리로 묶어 리스트에 저장하고 최종 출력한다.
+# 2-3 (데이터 적재): 수집된 데이터를 딕셔너리로 묶어 리스트에 저장하고 최종 출력한다. 
+
+
