@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 성찰 일기 REST API
  *
- * GET    /api/reflections/question?profileId=&type=core|year&offset=0   오늘의 성찰 질문
+ * GET    /api/reflections/question?profileId=&type=core|year|career|marriage&offset=0   오늘의 성찰 질문
  * GET    /api/reflections?profileId=                                    성찰 일기 목록 (profileId 없으면 전체)
  * POST   /api/reflections                                               성찰 일기 저장
  * PUT    /api/reflections/{id}                                          답 수정
@@ -32,7 +32,7 @@ public class ReflectionController {
                                            @RequestParam("profileId") Long profileId,
                                            @RequestParam(value = "type", defaultValue = "core") String type,
                                            @RequestParam(value = "offset", defaultValue = "0") int offset) {
-        if (!type.equals("core") && !type.equals("year")) {
+        if (!ReflectionDto.TYPES.contains(type)) {
             throw new IllegalArgumentException("질문 종류가 올바르지 않아요.");
         }
         return service.question(ProfileController.ClientId.check(clientId), profileId, type, offset);

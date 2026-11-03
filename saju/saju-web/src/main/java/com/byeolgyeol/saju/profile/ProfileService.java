@@ -59,8 +59,7 @@ public class ProfileService {
         repository.delete(p);
     }
 
-    /** 성찰 일기 등 다른 기능에서 내 프로필인지 확인할 때 사용 */
-    Profile get(String clientId, Long id) {
+    private Profile get(String clientId, Long id) {
         return repository.findByIdAndClientId(id, clientId)
                 .orElseThrow(() -> new NoSuchElementException("사주 프로필을 찾을 수 없어요."));
     }

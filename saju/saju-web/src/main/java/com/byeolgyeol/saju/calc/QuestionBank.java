@@ -20,6 +20,8 @@ public final class QuestionBank {
 
     public static final String RESOURCE = "/reflection-questions.txt";
     public static final String COMMON = "COMMON";
+    public static final String CAREER = "CAREER";
+    public static final String MARRIAGE = "MARRIAGE";
 
     public record Question(String code, String category, String text) {}
 
@@ -70,6 +72,16 @@ public final class QuestionBank {
     /** 올해 운세 탭용: 올해와 나의 관계별 질문 */
     public List<Question> yearPool(Relation relation) {
         return concat("YEAR_" + relation.name());
+    }
+
+    /** 직장운 탭용 */
+    public List<Question> careerPool() {
+        return concat(CAREER);
+    }
+
+    /** 결혼운 탭용 */
+    public List<Question> marriagePool() {
+        return concat(MARRIAGE);
     }
 
     /**

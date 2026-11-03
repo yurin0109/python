@@ -61,7 +61,7 @@
   .brand-name { font-family: var(--serif); font-weight: 600; font-size: 27px; }
   .brand-desc { position: relative; font-size: 12px; line-height: 1.45; color: var(--muted); padding-left: 14px; border-left: 1px solid var(--line); white-space: nowrap; }
 
-  .tabs { display: flex; gap: 40px; height: 88px; }
+  .tabs { display: flex; gap: 30px; height: 88px; }
   .tab {
     display: flex; align-items: center; height: 88px;
     font-size: 14px; color: var(--muted);
@@ -261,6 +261,23 @@
   .profile-info { font-size: 13px; color: var(--muted); }
 
   .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .pillar-mean { display: block; white-space: nowrap; font-style: normal; font-size: 11px; color: var(--muted); opacity: .8; margin-top: 2px; }
+  .howto { margin-top: 22px; border-top: 1px solid var(--line); padding-top: 18px; }
+  .howto summary { cursor: pointer; font-size: 14px; font-weight: 500; color: var(--accent); list-style: none; display: flex; align-items: center; gap: 8px; }
+  .howto summary::-webkit-details-marker { display: none; }
+  .howto summary::after { content: "펼치기 ▾"; font-size: 12px; font-weight: 400; color: var(--muted); margin-left: auto; }
+  .howto[open] summary::after { content: "접기 ▴"; }
+  .howto-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+  .howto-item { padding: 16px; border-radius: 10px; background: var(--card-2); border: 1px solid var(--line); }
+  .howto-item > b { display: block; font-size: 13px; color: var(--text); margin-bottom: 8px; }
+  .howto-item p { font-size: 13px; color: var(--body); line-height: 1.75; }
+  .howto-item p b { color: var(--accent); font-weight: 500; }
+  .howto-dots { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 6px 0; font-size: 12px; }
+  .howto-dots i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; border: 1px solid; vertical-align: -1px; margin-right: 4px; }
+  .howto-foot { margin-top: 14px; font-size: 13px; color: var(--muted); line-height: 1.75; }
+  .howto-foot b { color: var(--body); font-weight: 500; }
+  @media (max-width: 1100px) { .howto-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 720px) { .howto-grid { grid-template-columns: 1fr; } .pillar-mean { font-size: 10px; } }
   .pillar { text-align: center; display: flex; flex-direction: column; gap: 8px; }
   .pillar-label { font-size: 12px; color: var(--muted); }
   .pillar-char {
@@ -279,7 +296,7 @@
 
   .core { padding: 36px; display: flex; flex-direction: column; gap: 24px; }
   .core-headline { font-family: var(--serif); font-size: 32px; line-height: 1.55; white-space: pre-line; }
-  .core-desc { font-size: 15px; color: var(--body); line-height: 1.8; }
+  .core-desc { font-size: 15px; color: var(--body); line-height: 1.9; white-space: pre-line; }
   .chips { display: flex; gap: 10px; flex-wrap: wrap; }
   .basis { font-size: 12px; color: var(--muted); padding: 10px 14px; border-radius: 8px; background: var(--card-2); }
   .basis b { color: var(--accent); font-weight: 500; }
@@ -303,7 +320,7 @@
   .tip-card { display: flex; flex-direction: column; gap: 14px; }
   .tip-card .head { display: flex; align-items: center; gap: 12px; }
   .tip-card h3 { font-size: 16px; font-weight: 500; }
-  .tip-card p { font-size: 14px; color: var(--body); }
+  .tip-card p { font-size: 14px; color: var(--body); line-height: 1.8; white-space: pre-line; }
 
   .reflect { display: flex; flex-direction: column; gap: 14px; background: linear-gradient(160deg, #2a1d36, var(--card)); }
   .reflect .q { font-family: var(--serif); font-size: 22px; line-height: 1.55; min-height: 2.4em; transition: opacity .2s; }
@@ -344,7 +361,7 @@
   .summary-card .v { font-size: 14px; font-weight: 500; margin-top: 6px; }
   .chapter-label { font-size: 12px; color: var(--accent); }
   .chapter-title { font-family: var(--serif); font-size: 26px; font-weight: 500; }
-  .reading-body { font-size: 15px; color: var(--body); line-height: 1.85; }
+  .reading-body { font-size: 15px; color: var(--body); line-height: 1.9; white-space: pre-line; }
   .action-box { display: flex; gap: 14px; padding: 18px; border-radius: 10px; border: 1px solid var(--accent-line); background: var(--accent-soft); }
   .action-box .t { font-size: 13px; font-weight: 700; color: var(--accent); }
   .action-box .c { font-size: 14px; color: var(--body); margin-top: 4px; }
@@ -354,6 +371,29 @@
   .relation-map { display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
   .relation-map .rel { display: flex; justify-content: space-between; padding: 8px 10px; border-radius: 6px; color: var(--muted); }
   .relation-map .rel.on { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+
+  /* ───────── 직장운 · 결혼운 ───────── */
+  .topic-hero {
+    height: 160px; border-radius: 10px; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center; gap: 22px;
+    font-family: var(--serif); text-align: center;
+  }
+  .topic-hero .big { font-size: 46px; }
+  .topic-hero .lbl { font-size: 13px; color: var(--muted); font-family: var(--sans); }
+  .topic-hero .val { font-size: 26px; font-weight: 500; }
+  .career-hero { background: radial-gradient(circle at 25% 40%, rgba(150,115,51,.28), transparent 45%), radial-gradient(circle at 80% 60%, rgba(255,112,207,.18), transparent 45%), var(--card-2); }
+  .marriage-hero { background: radial-gradient(circle at 30% 50%, rgba(255,112,207,.28), transparent 45%), radial-gradient(circle at 75% 40%, rgba(181,70,67,.22), transparent 45%), var(--card-2); }
+  .fields { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tg-list { display: flex; flex-direction: column; gap: 12px; }
+  .tg-row { display: grid; grid-template-columns: 52px 1fr 36px; align-items: center; gap: 10px; font-size: 13px; }
+  .tg-row b { font-weight: 500; }
+  .tg-row.on b, .tg-row.on .pct { color: var(--accent); font-weight: 700; }
+  .tg-row .pct { text-align: right; color: var(--muted); font-size: 12px; }
+  .tg-row .bar i { background: linear-gradient(90deg, #8f5bd6, var(--accent)); }
+  .tg-row:not(.on) .bar i { background: #6a5a7d; }
+  .palace { display: flex; align-items: center; gap: 14px; }
+  .palace .pillar-char { width: 64px; flex-shrink: 0; }
+  .side-note { font-size: 14px; color: var(--body); line-height: 1.7; }
 
   /* ───────── 내 사주 목록 ───────── */
   .list-head { display: flex; align-items: center; gap: 10px; }
@@ -490,7 +530,9 @@
   /* ───────── 반응형 ───────── */
   @media (max-width: 1100px) {
     :root { --pad-x: 32px; }
-    .tabs { gap: 22px; }
+    .tabs { gap: 16px; }
+    .tab { font-size: 13px; }
+    .brand-desc { display: none; }
     .nav-help .help-text { display: none; }
     .grid-2, .form-wrap, .reading, .list-wrap { grid-template-columns: 1fr; }
     .hero-orbit { opacity: .35; right: -60px; }
@@ -502,7 +544,7 @@
     .nav-help svg { width: 20px; height: 20px; }
     .tabs { height: 52px; overflow-x: auto; gap: 20px; scrollbar-width: none; }
     .tab { height: 52px; }
-    .brand-desc { font-size: 11px; padding-left: 10px; }
+    .brand-desc { display: block; font-size: 11px; padding-left: 10px; }
     .title { font-size: 28px; }
     .hero { padding: 36px 24px; min-height: 440px; }
     .hero h1 { font-size: 34px; }
@@ -536,6 +578,8 @@
     <button class="tab" role="tab" data-tab="input" aria-selected="false">사주 입력</button>
     <button class="tab" role="tab" data-tab="result" aria-selected="false">내 결과</button>
     <button class="tab" role="tab" data-tab="year" aria-selected="false"><span class="this-year">올해</span>&nbsp;운세</button>
+    <button class="tab" role="tab" data-tab="career" aria-selected="false">직장운</button>
+    <button class="tab" role="tab" data-tab="marriage" aria-selected="false">결혼운</button>
     <button class="tab" role="tab" data-tab="list" aria-selected="false">내 사주 목록</button>
   </nav>
   <button type="button" class="nav-help" data-help="guide">
@@ -721,6 +765,16 @@
   <div id="year-root"></div>
 </section>
 
+<!-- ═════════════ 탭 5. 직장운 ═════════════ -->
+<section class="panel" id="panel-career" role="tabpanel">
+  <div id="career-root"></div>
+</section>
+
+<!-- ═════════════ 탭 6. 결혼운 ═════════════ -->
+<section class="panel" id="panel-marriage" role="tabpanel">
+  <div id="marriage-root"></div>
+</section>
+
 <!-- ═════════════ 탭 5. 내 사주 목록 ═════════════ -->
 <section class="panel" id="panel-list" role="tabpanel">
   <div class="intro" style="flex-direction:row; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap">
@@ -769,7 +823,7 @@
       </div>
       <div class="txt">
         <h3>성찰 일기란?</h3>
-        <p>내 결과와 올해 운세 탭의 성찰 질문에 적은 답이 날짜별로 모여요. 질문은 매일 바뀌고, "다른 질문"을 눌러 고를 수도 있어요.</p>
+        <p>내 결과 · 올해 운세 · 직장운 · 결혼운 탭의 성찰 질문에 적은 답이 날짜별로 모여요. 질문은 매일 바뀌고, "다른 질문"을 눌러 고를 수도 있어요.</p>
         <hr class="divider">
         <p>적은 내용은 언제든 수정하거나 삭제할 수 있어요. 사주 프로필을 삭제하면 그 프로필로 쓴 성찰 일기도 함께 삭제돼요.</p>
       </div>
@@ -835,8 +889,10 @@
           <tr><th>사주 입력</th><td>새 사주 추가 · 기존 사주 정보 수정</td></tr>
           <tr><th>내 결과</th><td>여덟 글자, 오행 비율, 핵심 성향, 강한 기운과 채우면 좋은 기운, 성찰 질문</td></tr>
           <tr><th>올해 운세</th><td>올해 간지와 나의 관계로 읽는 흐름, 주의 포인트, 풀이 근거</td></tr>
+          <tr><th>직장운</th><td>십성 분포로 읽는 일하는 스타일, 잘 맞는 분야, 올해 일의 흐름</td></tr>
+          <tr><th>결혼운</th><td>배우자 별과 배우자 자리(일지)로 읽는 인연의 흐름과 관계 스타일</td></tr>
           <tr><th>내 사주 목록</th><td>저장한 사주 보기 · 수정 · 삭제. 여러 사람의 사주를 저장할 수 있어요</td></tr>
-          <tr><th>성찰 일기</th><td>내 결과 · 올해 운세 탭의 성찰 질문에 적은 답이 날짜별로 모여요. 내 사주 목록 › 성찰 일기에서 수정 · 삭제할 수 있어요</td></tr>
+          <tr><th>성찰 일기</th><td>내 결과 · 올해 운세 · 직장운 · 결혼운 탭의 성찰 질문에 적은 답이 날짜별로 모여요. 내 사주 목록 › 성찰 일기에서 수정 · 삭제할 수 있어요</td></tr>
         </table>
         <h4>다섯 오행 친구</h4>
         <div class="guide-els"><div><img src="img/wood.svg" alt=""><b>목 木</b>사슴<br>성장</div><div><img src="img/fire.svg" alt=""><b>화 火</b>여우<br>열정</div><div><img src="img/earth.svg" alt=""><b>토 土</b>곰<br>안정</div><div><img src="img/metal.svg" alt=""><b>금 金</b>호랑이<br>집중</div><div><img src="img/water.svg" alt=""><b>수 水</b>수달<br>흐름</div></div>
@@ -851,6 +907,8 @@
           <tr><th>시주</th><td>2시간 단위예요. 한국 표준시와 실제 태양 시간의 차이(약 30분)를 보정해 <b>23:30~01:29를 자시</b>로 봐요. 23:30 이후 출생은 다음 날 일주로 계산해요.</td></tr>
           <tr><th>오행 비율</th><td>여덟 글자의 오행을 세되, 태어난 계절을 나타내는 <b>월지에 3배</b>의 비중을 둬요.</td></tr>
           <tr><th>올해 운세</th><td>올해 천간의 오행이 나의 일간과 어떤 관계(비겁 · 식상 · 재성 · 관성 · 인성)인지로 풀이해요.</td></tr>
+          <tr><th>직장운</th><td>일간을 뺀 글자들이 나와 맺는 관계(십성)를 세고, 가장 많은 십성으로 일하는 스타일을 읽어요. 월지는 2배로 반영해요.</td></tr>
+          <tr><th>결혼운</th><td>배우자 별(여성은 관성, 남성은 재성)이 얼마나 있는지와, 배우자 자리인 일지가 나와 어떤 관계인지로 풀이해요.</td></tr>
         </table>
         <p class="notice">절기 날짜는 평균값을 사용해서, 절기 당일 전후에 태어난 경우 하루 정도 차이가 날 수 있어요. 음력 입력은 준비 중이에요.</p>
       </section>
@@ -861,7 +919,7 @@
         <details class="faq"><summary>다른 사주 사이트와 결과가 달라요.</summary><p>자시를 보는 기준(23시 / 23시 30분)이나 시간 보정 여부, 오행 비율을 계산하는 방식이 사이트마다 달라서 생기는 차이예요. Among the Stars의 기준은 "사주 계산 방식" 탭에서 확인할 수 있어요.</p></details>
         <details class="faq"><summary>저장한 사주가 사라졌어요.</summary><p>사주 목록은 로그인 대신 지금 쓰는 브라우저에 연결돼요. 다른 기기나 브라우저, 시크릿 창에서는 보이지 않고, 브라우저 데이터를 지우면 목록에 연결이 끊길 수 있어요.</p></details>
         <details class="faq"><summary>정보를 수정하면 어떻게 되나요?</summary><p>바뀐 출생 정보로 사주를 바로 다시 계산하고, 풀이도 새 결과 기준으로 보여드려요.</p></details>
-        <details class="faq"><summary>성찰 질문은 매일 바뀌나요?</summary><p>네. 날짜마다 다른 질문이 나오고, "다른 질문"을 누르면 바로 다음 질문으로 바꿀 수 있어요. 내 일간의 오행과 올해의 흐름에 맞춘 질문 300여 개 중에서 골라드려요.</p></details>
+        <details class="faq"><summary>성찰 질문은 매일 바뀌나요?</summary><p>네. 날짜마다 다른 질문이 나오고, "다른 질문"을 누르면 바로 다음 질문으로 바꿀 수 있어요. 내 일간의 오행, 올해의 흐름, 일과 관계에 맞춘 질문 600여 개 중에서 골라드려요.</p></details>
         <details class="faq"><summary>오행 비율이 낮으면 안 좋은 건가요?</summary><p>아니에요. 높고 낮음은 좋고 나쁨이 아니라 나의 기질이 어떤 방향으로 기울어 있는지를 보여줄 뿐이에요.</p></details>
       </section>
 
@@ -908,6 +966,7 @@ const EL = {
   METAL: { ko: '금', hanja: '金', name: '금속', color: 'var(--metal)', emoji: '🐯', img: 'img/metal.svg', char: '은빛 아기 호랑이' },
   WATER: { ko: '수', hanja: '水', name: '물',   color: 'var(--water)', emoji: '🦦', img: 'img/water.svg', char: '푸른 물방울 수달' },
 };
+const PILLAR_MEAN = { 시주: '자녀 · 노년', 일주: '나 · 배우자', 월주: '부모 · 사회', 년주: '조상 · 유년' };
 const RELATIONS = [
   ['비겁', '나와 같은 기운'], ['식상', '내가 생하는 기운'], ['재성', '내가 극하는 기운'],
   ['관성', '나를 극하는 기운'], ['인성', '나를 생하는 기운'],
@@ -957,7 +1016,11 @@ async function request(url, options = {}) {
   });
   if (res.status === 204) return null;
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.message || '잠시 후 다시 시도해주세요.');
+  if (!res.ok) {
+    // 서버가 우리 형식의 에러를 보내지 않았다면, 상태 코드와 주소를 보여줘서 원인을 찾기 쉽게 한다
+    const where = url.replace(location.origin, '').split('?')[0];
+    throw new Error(data.message || `${res.status} 오류 · ${where} · 서버를 껐다 켜고 /api/version 을 확인해주세요`);
+  }
   return data;
 }
 
@@ -989,6 +1052,8 @@ function showTab(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
   if (name === 'result') renderResult();
   if (name === 'year') renderYear();
+  if (name === 'career') renderCareer();
+  if (name === 'marriage') renderMarriage();
   if (name === 'list') { renderList(); renderJournal(); applyListView(); }
   const hash = name === 'list' && state.listView === 'journal' ? 'journal' : name;
   if (location.hash !== '#' + hash) history.replaceState(null, '', '#' + hash);
@@ -1051,8 +1116,9 @@ function renderResult() {
   const pillarsHtml = s.pillars.map(pl => {
     if (!pl.korean) return `<div class="pillar"><span class="pillar-label">${pl.label}</span>
       <div class="pillar-char empty">시간 모름</div><div class="pillar-char empty">-</div></div>`;
+    // (시간을 모르면 시주는 비워두고 나머지 여섯 글자로 풀이)
     const me = pl.label === '일주';
-    return `<div class="pillar"><span class="pillar-label">${pl.label}${me ? ' · 나' : ''}</span>
+    return `<div class="pillar"><span class="pillar-label">${pl.label}${me ? ' · 나' : ''}<em class="pillar-mean">${PILLAR_MEAN[pl.label]}</em></span>
       <div class="pillar-char el-${pl.stemElement} ${me ? 'me' : ''}">${pl.hanja[0]}<small>${pl.korean[0]} · ${EL[pl.stemElement].ko}</small></div>
       <div class="pillar-char el-${pl.branchElement}">${pl.hanja[1]}<small>${pl.korean[1]} · ${EL[pl.branchElement].ko}</small></div></div>`;
   }).join('');
@@ -1090,6 +1156,31 @@ function renderResult() {
         <span class="card-sub">네 기둥 · 여덟 글자</span>
       </div>
       <div class="pillars">${pillarsHtml}</div>
+
+      <details class="howto" ${readStore('saju.howto') === 'closed' ? '' : 'open'}>
+        <summary>📖 사주팔자, 이렇게 읽어요</summary>
+        <div class="howto-grid">
+          <div class="howto-item">
+            <b>① 네 기둥</b>
+            <p>태어난 <b>년 · 월 · 일 · 시</b>가 각각 하나의 기둥이에요. 전통 표기에 따라 오른쪽부터 년주 → 월주 → 일주 → 시주 순서로 읽어요.</p>
+          </div>
+          <div class="howto-item">
+            <b>② 위 글자 · 아래 글자</b>
+            <p>기둥마다 위 칸은 하늘의 기운인 <b>천간</b>, 아래 칸은 땅의 기운인 <b>지지</b>예요. 그래서 4기둥 × 2글자 = <b>여덟 글자(팔자)</b>가 돼요.</p>
+          </div>
+          <div class="howto-item">
+            <b>③ 나를 나타내는 글자</b>
+            <p>분홍 테두리가 있는 <b>일주의 위 글자(일간)</b>가 바로 '나'예요. ${esc(firstName)} 님은 <b>${s.core.dayMasterHanja} ${s.core.dayMaster}${EL[s.core.dayMasterElement].ko}</b>이에요. 나머지 글자는 모두 이 글자와의 관계로 풀이해요.</p>
+          </div>
+          <div class="howto-item">
+            <b>④ 색 = 오행</b>
+            <p>칸의 색은 그 글자의 오행이에요.
+              <span class="howto-dots">${['WOOD','FIRE','EARTH','METAL','WATER'].map(c => `<span><i class="el-${c}"></i>${EL[c].ko}</span>`).join('')}</span>
+              오른쪽 아래 작은 글씨는 한글 읽는 법과 오행이에요.</p>
+          </div>
+        </div>
+        <p class="howto-foot">기둥마다 보는 의미도 달라요. <b>년주</b>는 조상과 어린 시절, <b>월주</b>는 부모·형제와 사회생활, <b>일주</b>는 나와 배우자, <b>시주</b>는 자녀와 노년을 나타낸다고 봐요. 태어난 계절을 알려주는 <b>월지</b>(월주 아래 글자)는 영향력이 커서 오행 비율에 더 크게 반영했어요.</p>
+      </details>
     </div>
 
     <div class="grid-2">
@@ -1126,6 +1217,8 @@ function renderResult() {
   </div>`;
 
   requestAnimationFrame(() => root.querySelectorAll('.bar i').forEach(b => b.style.width = b.dataset.w + '%'));
+  const howto = root.querySelector('.howto');
+  howto.addEventListener('toggle', () => writeStore('saju.howto', howto.open ? 'open' : 'closed'));
   mountReflect(root.querySelector('[data-reflect]'), p, 'core');
 }
 
@@ -1188,6 +1281,144 @@ function renderYear() {
 }
 
 /* ════════════════════════════════════════════
+   직장운 · 결혼운 공통
+   ════════════════════════════════════════════ */
+function topicFrame(p, o) {
+  return `
+  <div style="display:flex;flex-direction:column;gap:28px">
+    <div class="crumb-row"><span class="crumb">내 사주 / ${esc(p.name)} / ${o.crumb}</span><span class="tag">${o.tag}</span></div>
+    <div class="intro">
+      <span class="eyebrow">${o.eyebrow}</span>
+      <h1 class="title">${o.title}</h1>
+      <p class="lead">${o.lead}</p>
+    </div>
+    <div class="reading">
+      <article class="card reading-main">${o.main}
+        <p class="notice">풀이는 자기 성찰을 위한 참고예요. 중요한 결정은 현실의 정보와 함께 판단해주세요.</p>
+      </article>
+      <aside class="side">${o.side}
+        <div class="card reflect" data-reflect="${o.type}"></div>
+        <button class="link" style="text-align:left" data-go="list">← 내 사주 목록으로</button>
+      </aside>
+    </div>
+  </div>`;
+}
+
+function emptyTopic(icon, what) {
+  return emptyState(icon, `${what}을 보려면 사주가 필요해요`, '출생 정보를 입력하면 사주의 십성 분포로 풀이해드려요.');
+}
+
+/* ════════════════════════════════════════════
+   탭 5. 직장운
+   ════════════════════════════════════════════ */
+function renderCareer() {
+  const root = document.getElementById('career-root');
+  const p = current();
+  if (!p) { root.innerHTML = emptyTopic('🧭', '직장운'); return; }
+  const c = p.saju.career, core = p.saju.core, y = p.saju.thisYear;
+
+  const tg = c.tenGods.map(t => `
+    <div class="tg-row ${t.name === c.dominant ? 'on' : ''}">
+      <b>${t.name}</b>
+      <div class="bar" title="${esc(t.desc)}"><i data-w="${t.percent}"></i></div>
+      <span class="pct">${t.percent}%</span>
+    </div>`).join('');
+
+  root.innerHTML = topicFrame(p, {
+    type: 'career', crumb: '직장운', tag: '🧭 직장운',
+    eyebrow: `직장운 · 가장 많은 기운 ${c.dominant}`,
+    title: `${esc(p.name)} 님에게 잘 맞는 일의 결`,
+    lead: '사주 여덟 글자가 나(일간)와 맺는 관계, 십성의 분포로 일하는 스타일과 잘 맞는 분야를 읽어요.',
+    main: `
+      <div class="topic-hero career-hero">
+        <span class="big">🧭</span>
+        <span><span class="lbl">나의 일하는 스타일</span><br><span class="val">${esc(c.type)}</span></span>
+      </div>
+      <div>
+        <span class="chapter-label">CHAPTER · ${c.dominant} (${esc(c.dominantDesc)})</span>
+        <h2 class="chapter-title">${esc(c.type)}</h2>
+      </div>
+      <div class="summary-cards">
+        <div class="summary-card"><div class="k">주요 키워드</div><div class="v">${esc(c.keywords)}</div></div>
+        <div class="summary-card"><div class="k">주의 포인트</div><div class="v">${esc(c.caution)}</div></div>
+      </div>
+      <p class="reading-body">${esc(c.body)}</p>
+      <div>
+        <div class="k notice" style="margin-bottom:10px">잘 맞는 분야</div>
+        <div class="fields">${c.fields.map(f => `<span class="chip">${esc(f)}</span>`).join('')}</div>
+      </div>
+      <div class="action-box">
+        <span style="font-size:18px">✎</span>
+        <div><div class="t">${y.year}년 일의 흐름 · ${y.relation}</div><div class="c">${esc(c.thisYear)}</div></div>
+      </div>
+      <div class="action-box">
+        <span style="font-size:18px">✎</span>
+        <div><div class="t">이번 주 실천 문구</div><div class="c">${esc(c.action)}</div></div>
+      </div>`,
+    side: `
+      <div class="card">
+        <h4>✦ 풀이 근거 · 십성 분포</h4>
+        <p class="side-note" style="margin-bottom:14px">일간 <b>${core.dayMasterHanja}</b>(${EL[core.dayMasterElement].ko}) 기준으로 나머지 글자를 셌어요. 태어난 계절(월지)은 2배로 반영했어요.</p>
+        <div class="tg-list">${tg}</div>
+      </div>`,
+  });
+  requestAnimationFrame(() => root.querySelectorAll('.bar i').forEach(b => b.style.width = b.dataset.w + '%'));
+  mountReflect(root.querySelector('[data-reflect]'), p, 'career');
+}
+
+/* ════════════════════════════════════════════
+   탭 6. 결혼운
+   ════════════════════════════════════════════ */
+const LEVEL_TEXT = { NONE: '드러나지 않음', BALANCED: '알맞음', MANY: '많음' };
+
+function renderMarriage() {
+  const root = document.getElementById('marriage-root');
+  const p = current();
+  if (!p) { root.innerHTML = emptyTopic('💞', '결혼운'); return; }
+  const m = p.saju.marriage, core = p.saju.core;
+  const who = p.gender === 'F' ? '여성' : '남성';
+
+  root.innerHTML = topicFrame(p, {
+    type: 'marriage', crumb: '결혼운', tag: '💞 결혼운',
+    eyebrow: `결혼운 · 배우자 별 ${m.starName} ${LEVEL_TEXT[m.level]}`,
+    title: `${esc(p.name)} 님의 인연과 관계의 결`,
+    lead: '배우자를 나타내는 기운(배우자 별)과 배우자 자리(일지)로 관계에서 편안함을 느끼는 방식을 읽어요.',
+    main: `
+      <div class="topic-hero marriage-hero">
+        <span class="big">💞</span>
+        <span><span class="lbl">배우자 별 · ${m.starName}</span><br><span class="val">${LEVEL_TEXT[m.level]}</span></span>
+        <span><span class="lbl">배우자 자리 · 일지</span><br><span class="val">${m.palaceHanja} ${m.palace}</span></span>
+      </div>
+      <div>
+        <span class="chapter-label">CHAPTER · 인연의 흐름</span>
+        <h2 class="chapter-title">${esc(m.title)}</h2>
+      </div>
+      <div class="summary-cards">
+        <div class="summary-card"><div class="k">주요 키워드</div><div class="v">${esc(m.keywords)}</div></div>
+        <div class="summary-card"><div class="k">주의 포인트</div><div class="v">${esc(m.caution)}</div></div>
+      </div>
+      <p class="reading-body">${esc(m.body)}</p>
+      <div class="palace">
+        <div class="pillar-char el-${m.palaceElement}">${m.palaceHanja}<small>${m.palace} · ${EL[m.palaceElement].ko}</small></div>
+        <p class="reading-body"><b style="color:var(--accent);font-weight:500">배우자 자리 · ${m.palaceRelation}</b><br>${esc(m.palaceText)}</p>
+      </div>
+      <div class="action-box">
+        <span style="font-size:18px">✎</span>
+        <div><div class="t">관계를 위한 실천 문구</div><div class="c">${esc(m.action)}</div></div>
+      </div>`,
+    side: `
+      <div class="card">
+        <h4>✦ 풀이 근거</h4>
+        <p class="side-note">전통 명리에서 ${who}의 배우자 별은 <b>${m.starName}</b>(${esc(m.starDesc)})이에요. 사주에서 ${m.starName} 점수는 <b>${m.starScore}점</b>이라 <b>${LEVEL_TEXT[m.level]}</b>으로 읽었어요.</p>
+        <hr class="divider" style="margin:14px 0">
+        <p class="side-note">배우자 자리인 일지 <b>${m.palaceHanja}</b>(${EL[m.palaceElement].ko})는 나의 일간 <b>${core.dayMasterHanja}</b>(${EL[core.dayMasterElement].ko})에게 <b>${m.palaceRelation}</b>이에요.</p>
+        <p class="notice" style="margin-top:12px">결혼 여부나 시기를 정하는 풀이가 아니라, 관계에서 나를 이해하기 위한 참고예요.</p>
+      </div>`,
+  });
+  mountReflect(root.querySelector('[data-reflect]'), p, 'marriage');
+}
+
+/* ════════════════════════════════════════════
    탭 5. 내 사주 목록
    ════════════════════════════════════════════ */
 function renderList() {
@@ -1217,7 +1448,7 @@ function renderList() {
       </div>
       <div class="pc-foot">
         <div class="pc-status">✓ 사주 결과 열람 가능
-          <small>일간 ${p.saju.core.dayMasterHanja} · 사주팔자 · 오행 균형 · ${p.saju.thisYear.year}년 운세</small></div>
+          <small>일간 ${p.saju.core.dayMasterHanja} · 사주팔자 · 오행 균형 · ${p.saju.thisYear.year}년 운세 · 직장운 · 결혼운</small></div>
         <button class="btn btn-ghost" data-open="${p.id}">결과 보기 ↗</button>
       </div>
     </article>`).join('');
@@ -1245,7 +1476,8 @@ async function mountReflect(el, p, type) {
   if (!el) return;
   const key = type + ':' + p.id;
   const offset = state.qOffset[key] || 0;
-  const label = type === 'year' ? `✦ ${p.saju.thisYear.year}년 성찰 질문` : '✦ 오늘의 성찰 질문';
+  const label = { year: `✦ ${p.saju.thisYear.year}년 성찰 질문`, career: '✦ 일에 대한 성찰 질문',
+                  marriage: '✦ 관계에 대한 성찰 질문' }[type] || '✦ 오늘의 성찰 질문';
   const draft = state.drafts[key] || '';
 
   if (!el.dataset.ready) {
@@ -1389,7 +1621,7 @@ function renderJournal() {
     const editing = String(state.editingReflection) === String(r.id);
     const confirming = String(state.confirmReflection) === String(r.id);
     const edited = r.updatedAt && r.updatedAt.slice(0, 16) !== r.createdAt.slice(0, 16);
-    const typeLabel = r.type === 'year' ? '올해 운세' : '나의 결';
+    const typeLabel = { year: '올해 운세', career: '직장운', marriage: '결혼운' }[r.type] || '나의 결';
     return `${monthHead}
     <article class="card j-card" data-rid="${r.id}">
       <div class="j-head">
@@ -1643,7 +1875,7 @@ form.addEventListener('submit', async e => {
   catch (err) { toast('서버에 연결하지 못했어요'); }
   let start = location.hash.slice(1);
   if (start === 'journal') { state.listView = 'journal'; start = 'list'; }
-  showTab(['home', 'input', 'result', 'year', 'list'].includes(start) ? start : 'home');
+  showTab(['home', 'input', 'result', 'year', 'career', 'marriage', 'list'].includes(start) ? start : 'home');
 })();
 </script>
 </body>

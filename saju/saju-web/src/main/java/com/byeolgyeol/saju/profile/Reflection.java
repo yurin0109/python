@@ -28,7 +28,7 @@ public class Reflection {
     @Column(name = "profile_id", nullable = false)
     private Long profileId;
 
-    /** core = 내 결과 탭 질문, year = 올해 운세 탭 질문 */
+    /** core = 내 결과, year = 올해 운세, career = 직장운, marriage = 결혼운 탭 질문 */
     @Column(name = "question_type", nullable = false, length = 10)
     private String questionType;
 

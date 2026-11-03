@@ -14,21 +14,23 @@ class QuestionBankTest {
     private final QuestionBank bank = QuestionBank.load();
 
     @Test
-    @DisplayName("성찰 질문은 300개 이상")
+    @DisplayName("성찰 질문은 600개 이상")
     void enoughQuestions() {
-        assertTrue(bank.size() >= 300, "현재 " + bank.size() + "개");
+        assertTrue(bank.size() >= 600, "현재 " + bank.size() + "개");
     }
 
     @Test
-    @DisplayName("오행 5종 · 공통 · 올해 관계 5종 분류가 모두 있다")
+    @DisplayName("오행 5종 · 공통 · 올해 관계 5종 · 직장 · 결혼 분류가 모두 있다")
     void allCategories() {
         for (Element e : Element.values()) {
-            assertTrue(bank.category(e.name()).size() >= 30, e.name());
+            assertTrue(bank.category(e.name()).size() >= 60, e.name());
         }
-        assertFalse(bank.category(QuestionBank.COMMON).isEmpty());
+        assertTrue(bank.category(QuestionBank.COMMON).size() >= 60);
         for (Relation r : Relation.values()) {
-            assertTrue(bank.category("YEAR_" + r.name()).size() >= 10, r.name());
+            assertTrue(bank.category("YEAR_" + r.name()).size() >= 30, r.name());
         }
+        assertTrue(bank.careerPool().size() >= 50);
+        assertTrue(bank.marriagePool().size() >= 50);
     }
 
     @Test
@@ -40,6 +42,14 @@ class QuestionBankTest {
                 assertTrue(seen.add(q.text()), "중복: " + q.text());
             }
         }
+    }
+
+    @Test
+    @DisplayName("추가한 질문은 기존 질문 뒤에 번호가 이어진다 (기존 코드 유지)")
+    void appendedKeepsCodes() {
+        assertEquals("요즘 내가 가장 키워가고 싶은 것은 무엇인가요?", bank.find("WOOD-1").orElseThrow().text());
+        assertEquals("요즘 나를 가장 많이 자라게 해주는 사람은 누구인가요?", bank.find("WOOD-41").orElseThrow().text());
+        assertEquals("CAREER-1", bank.careerPool().get(0).code());
     }
 
     @Test

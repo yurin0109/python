@@ -6,10 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 화면에 내려주는 응답.
- * 프로필 정보 + 사주 원국 + 핵심 성향 + 오행 + 올해 운세를 한 번에 담는다.
+ * 프로필 정보 + 사주 원국 + 핵심 성향 + 오행 + 올해 운세 + 직장운 + 결혼운을 한 번에 담는다.
  */
 public record ProfileResponse(
         Long id,
@@ -43,8 +44,22 @@ public record ProfileResponse(
                           String relation, String relationDesc, String title,
                           String keywords, String caution, String body, String action) {}
 
+    /** 십성 하나의 분포 */
+    public record TenGodDto(String code, String name, String desc, int score, int percent) {}
+
+    public record CareerDto(String dominant, String dominantDesc, String type,
+                            String keywords, String caution, String body,
+                            List<String> fields, String action, String thisYear,
+                            List<TenGodDto> tenGods) {}
+
+    public record MarriageDto(String starName, String starDesc, int starScore, String level,
+                              String title, String keywords, String caution, String body,
+                              String palace, String palaceHanja, String palaceElement,
+                              String palaceRelation, String palaceText, String action) {}
+
     public record Saju(List<PillarDto> pillars, List<ElementDto> elements,
-                       CoreDto core, BalanceDto balance, YearDto thisYear) {}
+                       CoreDto core, BalanceDto balance, YearDto thisYear,
+                       CareerDto career, MarriageDto marriage) {}
 
     public static ProfileResponse of(Profile p, SajuChart chart, int currentSajuYear, Pillar yearPillar) {
         // 기둥 (시 · 일 · 월 · 년 순서가 전통 표기)
@@ -83,8 +98,38 @@ public record ProfileResponse(
                 yearElement.name(), rel.koreanName(), rel.description(),
                 yt.title(), yt.keywords(), yt.caution(), yt.body(), yt.action());
 
+        // 십성 분포
+        Map<Relation, Integer> counts = TenGods.count(chart);
+        int total = TenGods.total(counts);
+        List<TenGodDto> tenGods = new ArrayList<>();
+        for (Relation r : Relation.values()) {
+            int score = counts.get(r);
+            tenGods.add(new TenGodDto(r.name(), r.koreanName(), r.description(), score,
+                    total == 0 ? 0 : Math.round(score * 100f / total)));
+        }
+
+        // 직장운
+        Relation dom = TenGods.dominant(counts);
+        Interpretation.CareerText ct = Interpretation.CAREER.get(dom);
+        CareerDto career = new CareerDto(dom.koreanName(), dom.description(), ct.type(),
+                ct.keywords(), ct.caution(), ct.body(), ct.fields(), ct.action(),
+                Interpretation.CAREER_YEAR.get(rel), tenGods);
+
+        // 결혼운
+        Relation star = TenGods.spouseStar(p.getGender());
+        int starScore = counts.get(star);
+        String level = TenGods.level(starScore);
+        Interpretation.MarriageText mt = Interpretation.MARRIAGE_STAR.get(level);
+        Relation palace = TenGods.spousePalace(chart);
+        Branch palaceBranch = chart.day().branch();
+        MarriageDto marriage = new MarriageDto(star.koreanName(), star.description(), starScore, level,
+                mt.title(), mt.keywords(), Interpretation.MARRIAGE_CAUTION.get(palace), mt.body(),
+                palaceBranch.korean(), palaceBranch.hanja(), palaceBranch.element().name(),
+                palace.koreanName(), Interpretation.MARRIAGE_PALACE.get(palace),
+                Interpretation.MARRIAGE_ACTION.get(palace));
+
         return new ProfileResponse(p.getId(), p.getName(), p.getBirthDate(), p.getBirthTime(),
                 p.getGender(), p.getBirthPlace(),
-                new Saju(pillars, elements, core, balance, thisYear));
+                new Saju(pillars, elements, core, balance, thisYear, career, marriage));
     }
 }

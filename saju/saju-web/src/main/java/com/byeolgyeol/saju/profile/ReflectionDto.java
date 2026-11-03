@@ -6,18 +6,22 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /** 성찰 일기 요청 · 응답 모음 */
 public final class ReflectionDto {
 
     private ReflectionDto() {}
 
+    /** 질문 종류: core(내 결과) · year(올해 운세) · career(직장운) · marriage(결혼운) */
+    public static final Set<String> TYPES = Set.of("core", "year", "career", "marriage");
+
     /** 새 성찰 일기 저장 */
     public record CreateRequest(
             @NotNull(message = "어떤 사주에 대한 기록인지 알 수 없어요.")
             Long profileId,
 
-            @NotBlank @Pattern(regexp = "core|year", message = "질문 종류가 올바르지 않아요.")
+            @NotBlank @Pattern(regexp = "core|year|career|marriage", message = "질문 종류가 올바르지 않아요.")
             String type,
 
             @NotBlank(message = "질문 정보가 없어요. 페이지를 새로고침해주세요.")

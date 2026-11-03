@@ -17,17 +17,20 @@
 | 테스트 | JUnit 5 |
 | 디자인 | Figma |
 
-## 주요 기능 (탭 5개)
+## 주요 기능 (탭 7개)
 1. **홈** — 서비스 소개, 이용 순서
 2. **사주 입력** — 이름, 생년월일(양력), 태어난 시간(모름 가능), 출생 지역, 성별
 3. **내 결과** — 사주팔자 8글자, 오행 비율, 일간으로 읽는 핵심 성향, 강한/보완할 기운, 오늘의 성찰 질문 + 답 적기
 4. **올해 운세** — 올해 간지와 나의 일간 관계(비겁·식상·재성·관성·인성)로 읽는 흐름 + 풀이 근거 표시 + 올해 성찰 질문
-5. **내 사주 목록** — 저장한 사주 조회 / 수정 / 삭제, **성찰 일기** (적은 답을 월별로 모아보기 · 프로필별 필터 · 수정 · 삭제)
+5. **직장운** — 십성 분포(월지 2배)로 읽는 일하는 스타일 5종, 잘 맞는 분야, 올해 일의 흐름
+6. **결혼운** — 배우자 별(여성 관성 · 남성 재성)의 양과 배우자 자리(일지)로 읽는 관계 스타일
+7. **내 사주 목록** — 저장한 사주 조회 / 수정 / 삭제, **성찰 일기** (적은 답을 월별로 모아보기 · 프로필별 필터 · 수정 · 삭제)
 
 ### 성찰 질문 · 성찰 일기
-- 질문 데이터 **315개** (`src/main/resources/reflection-questions.txt`)
-  - 일간 오행별 40개 × 5 + 공통 40개 → 내 결과 탭
-  - 올해와의 관계별 15개 × 5 → 올해 운세 탭
+- 질문 데이터 **610개** (`src/main/resources/reflection-questions.txt`)
+  - 일간 오행별 60개 × 5 + 공통 60개 → 내 결과 탭
+  - 올해와의 관계별 30개 × 5 → 올해 운세 탭
+  - 직장 50개 → 직장운 탭 / 관계 50개 → 결혼운 탭
 - 날짜와 프로필로 그날의 질문이 정해지고, "다른 질문"으로 다음 질문을 볼 수 있음
 - 저장할 때 질문 문구는 화면에서 보낸 값이 아니라 서버의 질문 데이터에서 다시 찾아 저장 (조작 방지)
 - 프로필을 삭제하면 그 프로필로 쓴 성찰 일기도 함께 삭제
@@ -57,7 +60,7 @@
 | POST | /api/profiles | 사주 등록 |
 | PUT | /api/profiles/{id} | 정보 수정 (사주 재계산) |
 | DELETE | /api/profiles/{id} | 삭제 (성찰 일기 함께 삭제) |
-| GET | /api/reflections/question?profileId=&type=core\|year&offset= | 오늘의 성찰 질문 |
+| GET | /api/reflections/question?profileId=&type=core\|year\|career\|marriage&offset= | 오늘의 성찰 질문 |
 | GET | /api/reflections?profileId= | 성찰 일기 목록 |
 | POST | /api/reflections | 성찰 일기 저장 |
 | PUT | /api/reflections/{id} | 답 수정 |
@@ -83,8 +86,11 @@
 - 13:29 / 13:30 시지 경계, 23:29 / 23:30 일주 변경
 - 시간 모름 처리, 오행 비율 합계 100, 월지 가중치
 
-`QuestionBankTest` — 성찰 질문 6개
-- 300개 이상, 분류 11개 모두 존재, 문구 중복 없음
+`TenGodsTest` — 십성 6개
+- 7글자 십성 분포(월지 2배), 시간 모름 처리, 배우자 별 · 배우자 자리, 점수 구간, 문구 누락 검사
+
+`QuestionBankTest` — 성찰 질문 7개
+- 600개 이상, 추가해도 기존 질문 코드 유지, 분류 11개 모두 존재, 문구 중복 없음
 - 코드로 찾기, 같은 날 같은 질문 · 다른 질문 보기 동작, 탭별로 맞는 분류에서만 나오는지
 
 ## 실행 방법
@@ -97,16 +103,19 @@ mvn spring-boot:run        # 또는 IntelliJ에서 SajuApplication 실행
 mvn test
 ```
 
-## 배포 (MySQL)
-환경변수로 DB 정보를 넣고 `mysql` 프로필로 실행합니다. (코드에 비밀번호를 쓰지 않음)
+## 배포 (Render + Neon PostgreSQL)
+1. [Neon](https://neon.tech)에서 무료 PostgreSQL DB를 만들고 접속 정보를 확인
+2. Render › Web Service › Environment 에 환경변수 등록 (코드에 비밀번호를 쓰지 않음)
 ```
-SPRING_PROFILES_ACTIVE=mysql
-DB_URL=jdbc:mysql://호스트:3306/saju?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+SPRING_PROFILES_ACTIVE=prod
+DB_URL=jdbc:postgresql://호스트/neondb?sslmode=require
 DB_USERNAME=...
 DB_PASSWORD=...
 ```
-Docker를 지원하는 서비스(Render, Railway 등)는 포함된 `Dockerfile`로 바로 배포할 수 있습니다.
-테이블 구조는 `db/schema.sql` 참고.
+3. 저장하면 자동으로 다시 배포되고, 이후 서버가 재시작돼도 데이터가 유지됨
+4. Health Check Path: `/api/version`
+
+MySQL을 쓸 때는 `SPRING_PROFILES_ACTIVE=mysql` 과 `jdbc:mysql://...` 주소를 사용합니다. 테이블 구조는 `db/schema.sql` 참고.
 
 ## 캐릭터 이미지
 오행 캐릭터 5종은 `src/main/resources/static/img/` 의 SVG 파일입니다.
