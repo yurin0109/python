@@ -40,5 +40,5 @@ pipe_model = Pipeline( [
 
 # 9) 파이프라인 으로 학습
 pipe_model.fit( X_train , Y_train )
-print( 'r2 : ' , model.score( X_train_scaled , Y_train ) )
-print( 'r2 : ' , model.score( X_test_scaled , Y_test ) )
+print( 'r2 : ' , pipe_model.score( X_train , Y_train ) )
+print( 'r2 : ' , pipe_model.score( X_test , Y_test ) )
