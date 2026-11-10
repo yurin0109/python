@@ -1,3 +1,4 @@
+```python
 import pandas as pd
 df = pd.read_csv( "./day14/Fish.csv" ) # 1) 자료 수집
 X = df[ [ 'Length2' , 'Height' , 'Width' ] ] # 2) 특성 선정/구성
@@ -75,3 +76,4 @@ print( grid.best_score_ ) # 교차 검증에서 평균 점수 반환
 # 7. 최적 모델로 평가
 print( 'r : ' , best_model.score( X_train , Y_train ) )
 print( 'r : ' , best_model.score( X_test , Y_test ) )
+
