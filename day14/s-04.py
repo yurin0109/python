@@ -1,4 +1,3 @@
-```python
 import pandas as pd
 df = pd.read_csv( "./day14/Fish.csv" ) # 1) 자료 수집
 X = df[ [ 'Length2' , 'Height' , 'Width' ] ] # 2) 특성 선정/구성
@@ -18,7 +17,7 @@ ss = StandardScaler()
 ss.fit( X_train_poly )
 X_train_scaled = ss.transform( X_train_poly )
 X_test_scaled = ss.transform( X_test_poly )
-# 6) 모델 선택 , 단순선형회귀 , 규제( 릿지 / 라쏘 ) alhpa규제강도
+# 6) 모델 선택 , 단순선형회귀 , 규제( 릿지 / 라쏘 ) alpha규제강도
 from sklearn.linear_model import LinearRegression, Ridge
 model = LinearRegression()
 model.fit( X_train_scaled , Y_train )
@@ -40,18 +39,18 @@ pipe_model = Pipeline( [
 pipe_model.fit( X_train , Y_train )
 print( 'r2 : ' , pipe_model.score( X_train , Y_train ) )
 print( 'r2 : ' , pipe_model.score( X_test , Y_test ) )
-# 10) 최적(성능좋은/오차적은) 의 파리미터(매개변수/대입값) 찾기
-# degree=2 , alhpa=0.01
+# 10) 최적(성능좋은/오차적은) 의 파라미터(매개변수/대입값) 찾기
+# degree=2 , alpha=0.01
 # 1. 파이프라인 만들기
 pipe_model = Pipeline( [
     ( 'poly' , PolynomialFeatures( include_bias=False ) ) , # degree 튜닝
     ( 'scaler' , StandardScaler() ) ,                                  
-    ( 'redge' , Ridge() ) # alpha 튜닝                               
+    ( 'ridge' , Ridge() ) # alpha 튜닝                               
 ] )
-# 2. 파라미터 후보군 만들기 , { '식별자_파라미터명' : [ 후보값 , 후보값 ] }
+# 2. 파라미터 후보군 만들기 , { '식별자__파라미터명' : [ 후보값 , 후보값 ] }
 param_grid = {
-    'poly_degree' : [ 2, 3 ] ,
-    'ridge_alhpa' : [ 0.001 , 0.01 , 0.1 , 1 , 10 , 100 ]
+    'poly__degree' : [ 2, 3 ] ,
+    'ridge__alpha' : [ 0.001 , 0.01 , 0.1 , 1 , 10 , 100 ]
 }
 # 3. k-fold 교차 검증
 # KFold( n_splits = k개의 동일한 폴드로 분할 , shuffle=분할 시 무작위 섞기 , random_state=42 )
@@ -74,6 +73,9 @@ best_model = grid.best_estimator_ # 가장 성능 좋은 모델 반환
 print( grid.best_params_ ) # 가장 성능 좋은 파라미터 조합 반환
 print( grid.best_score_ ) # 교차 검증에서 평균 점수 반환
 # 7. 최적 모델로 평가
-print( 'r : ' , best_model.score( X_train , Y_train ) )
-print( 'r : ' , best_model.score( X_test , Y_test ) )
+print( 'r2 : ' , best_model.score( X_train , Y_train ) )
+print( 'r2 : ' , best_model.score( X_test , Y_test ) )
+
+
+
 
