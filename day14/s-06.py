@@ -22,13 +22,13 @@ model = LogisticRegression()
 model.fit( X_train_scaled , Y_train )
 Y_pred = model.predict( X_test_scaled )
 print( Y_pred )
-#
+# ['Bream' 'Bream' 'Smelt' 'Bream' 'Bream' 'Smelt' 'Smelt' 'Bream' 'Bream' 'Bream']
 # 5) 결과 속성
 print( model.classes_ ) # 정답지 종류 # ['Bream' 'Smelt']
 print( model.predict_proba( X_test_scaled[ :3] ) ) # 확률 반환
-# [[       # Bream( 0 )열 , Smelt( 1 )열
-#
-# ]]
+# [[0.99255987 0.00744013]      # Bream( 0 )열 , Smelt( 1 )열
+# [0.99568698 0.00431302]
+# [0.04598467 0.95401533]]
 # 6) 정확도 평가 : accuracy_score( 테스트정답지 , 테스트예측 )
 from sklearn.metrics import accuracy_score
 acc = accuracy_score( Y_test , Y_pred )
