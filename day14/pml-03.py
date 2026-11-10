@@ -14,6 +14,14 @@
 # # 종속 변수(문자열 'M', 'B' 유지) 및 독립 변수 분리
 # Y = df['diagnosis']
 # X = df.drop(columns=['diagnosis'])
+import pandas as pd
+df = pd.read_csv( ".day14/data.csv")
+df = df.drop(columns=['id'])
+df = df.dropna(axis=1 , how='all')
+Y = df['diagnosis'].map({'M':1 , 'B':0})
+X = df.drop(columns=['diagnosis'])
+
+
 
 # [단계 2] 훈련용 / 테스트용 데이터 분리
 # train_test_split을 사용하여 8:2 비율(test_size=0.2)로 분리하고,
