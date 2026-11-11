@@ -29,3 +29,26 @@ print( np.round( Y_pred_proba[:3] , 3 ) ) # np.round( 리스트 , 자릿수 )
 print( model.classes_ ) # 정답지 경우의 수 , 타깃의 클래스/값
 # ['Bream' 'Parkki' 'Perch' 'Pike' 'Roach' 'Smelt' 'Whitefish']
 
+# 평가지표
+# average="macro" : 클래스마다 개수 가 다르므로 산술평균 값으로 계산
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+# 1) 정확도 : 전체 예측 건수 중 맞힌 정답의 비율
+# 클래스 내 개수들이 불균형이면 점수가 왜곡 발생
+print( accuracy_score( Y_test , Y_pred ) ) # 0.8125
+# 2) 정밀도 : 예측한 것 중 실제로 맞힌 비율
+print( precision_score( Y_test , Y_pred , average="macro" ) )
+# 3) 재현율 : 실제 정답인 것 중에 모델이 놓치지 않고 찾아낸 비율
+print( recall_score( Y_test , Y_pred , average="macro" ) )
+# 4) f1점수/표준 : 정밀도 와 재현율 간의 조화 조정하기 위한 조화 평균
+print( f1_score( Y_test , Y_pred , average="macro" ) )
+## 4대 평가지표는 혼동행렬 이용하여 계산한다.
+# 혼동행렬 시각화
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay , classification_report
+# ConfusionMatrixDisplay.from_predictions( 정답지 , 예측값 )
+ConfusionMatrixDisplay.from_predictions( Y_test , Y_pred )
+plt.show()
+## 리포트( 평가 지표 보고서 )
+print( classification_report( Y_test , Y_pred ) )
+
+
