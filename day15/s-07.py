@@ -18,7 +18,7 @@ X_test_scaled = ss.transform( X_test )
 # 계산반복수(경사하강법) : 최적의 가중치/기울기 찾기 위한 계산 반복수 , 기본값 100 / 권장 1000 ~ 3000 
 # 경사하강법 : 기울기(가중치) 변경하면서 최적의 기울기(가중치) 찾는 과정
 from sklearn.linear_model import LogisticRegression
-model = LogisticRegression( C=1.0 , max_iter=1000 )
+model = LogisticRegression( C=1.0 , max_iter=1000 , random_state=42 )
 model.fit( X_train_scaled , Y_train )
 Y_pred = model.predict( X_test_scaled )
 print( Y_pred )
