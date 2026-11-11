@@ -50,5 +50,24 @@ ConfusionMatrixDisplay.from_predictions( Y_test , Y_pred )
 plt.show()
 ## 리포트( 평가 지표 보고서 )
 print( classification_report( Y_test , Y_pred ) )
-
+# 파이프라인 구성
+from sklearn.pipeline import Pipeline
+pipe = Pipeline( [
+    ('scaler' , StandardScaler()),
+    ('model' , LogisticRegression( max_iter=1000 , random_state=42 ))
+])
+# 하이퍼 파라미터 후보군 , "식별자__매개변수명" : [ 후보값 , 후보값 ]
+param__grid = { "model_C" : [ 0.01 , 0.1 , 1.0 , 10.0 , 100.0 ] }
+# K폴드 이용한 교차 검증 분할기( 다중분류 : StratifiedKFold ) 
+from sklearn.model_selection import KFold, StratifiedKFold
+cv = StratifiedKFold( n_splits=5 , shuffle=True , random_state=42 )
+# 그리드서치
+from sklearn.model_selection import GridSearchCV
+grid = GridSearchCV( pipe, param__grid, cv=cv, scoring="f1_macro", n_jobs=-1 )
+grid.fit( X_train , Y_train )
+print( grid.best_params_ ) # 최적의 파라미터
+print( grid.best_score_ ) # 최고의 f1 점수
+best_model = grid.best_estimator_ # 최적의 추정기/모델
+Y_pred = best_model.predict( X_test ) # 최적의 추정기로 예측
+print( classification_report( Y_test , Y_pred ) ) # 파이프라인으로 최적의 모델 탐색하여 보고서 출력
 
