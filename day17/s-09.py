@@ -63,4 +63,24 @@ print( "Test Acc : " , model.score( X_test , Y_test ) ) # Accuracy
 # 5) 특성 중요도: feature_importances_
 print( model.feature_names_in_ )
 print( model.feature_importances_) # 분류모델에서 예측에 기여한 특성의 중요도 수치
-# ['alcohol','sugar'  ]
+# [ 'alcohol' 'sugar' 'pH' ] 
+# [] # sugar 특성이 중요도 수치가 가장 크다.
+
+# 6) 앙상블: 배깅 또는 부스팅 방식으로 복합 모델 구현
+# 배깅 앙상블: 랜덤포레스트 (여러 트리 모델들을 병렬 처리 하여 최적의 모델 찾기)
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier(
+    max_depth=3 , # 트리의 최대 깊이 제한 ( 과적합 억제 )
+    class_weight="balanced" , # 클래스 불균형 해소 ( 과적합 억제 )
+    n_estimators=10 , # 생성할 결정 트리 갯수 기본값 100 , 1000~3000
+    max_features='sqrt' , # 각 노드에서 분할 시 특성의 최대 갯수
+    random_state=42 , 
+    n_jobs=-1 , # CPU 최대 사용
+)
+model.fit( X_train , Y_train )
+print( " Train Acc : " , model.score( X_train , Y_train ) ) # Accuracy
+print( "Test Acc : " , model.score( X_test , Y_test ) ) # Accuracy
+
+# max_features='sqrt' 사용하는 이유 : 분류에서 샘플을 사용할 때
+# 총 4개 인 경우 랜덤으로 4에서 제곱근 하여 2개만 사용한다. # 전체 샘플 사용 시 과적합
+# 즉] 전체 (숲) 보는 방식이 아닌 무작위(나무) 로 각기 다른 샘플 
