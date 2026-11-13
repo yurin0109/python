@@ -81,6 +81,11 @@ model.fit( X_train , Y_train )
 print( " Train Acc : " , model.score( X_train , Y_train ) ) # Accuracy
 print( "Test Acc : " , model.score( X_test , Y_test ) ) # Accuracy
 
-# max_features='sqrt' 사용하는 이유 : 분류에서 샘플을 사용할 때
+# max_features='sqrt' 사용하는 이유 : 분류에서 샘플을 사용할 때 샘플들을 전체 사용하지 않는다.
 # 총 4개 인 경우 랜덤으로 4에서 제곱근 하여 2개만 사용한다. # 전체 샘플 사용 시 과적합
-# 즉] 전체 (숲) 보는 방식이 아닌 무작위(나무) 로 각기 다른 샘플 
+# 즉] 전체 (숲) 보는 방식이 아닌 무작위(나무) 로 각기 다른 샘플 사용
+
+print( model.feature_names_in_ )
+print( model.feature_importances_ )
+# 
+# 
