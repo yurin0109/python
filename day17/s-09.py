@@ -34,3 +34,33 @@ plt.show()
 # samples = 값 , 해당 노드의 데이터 총 개수 
 # values <= [ 개수 , 개수 ] , 해당 노드에 도달한 특성 값으로 분류한 갯수
 # ** gini불순도 최대한 0 가깝게 가지치기
+
+# 3) 규제 : 가지치기( 루트 개수 제한 )
+model = DecisionTreeClassifier(
+    max_depth=3 , # 트리의 최대 깊이를 3으로 제한하여 복잡도 낮추기
+    min_samples_leaf=10 , # 리프노드(마지막 노드)가 가져야 할 최소 샘플 수 10개 제한
+    criterion="gini" , # 분할 측정 지표 gini vs entropy
+    random_state=42 , # 난수 시드
+)
+print( " Train Acc : " , model.score( X_train , Y_train ) ) # Accuracy
+print( "Test Acc : " , model.score( X_test , Y_test ) ) # Accuracy
+# Train Acc :  0.9978833942659227
+# Test Acc :  0.8684615384615385
+# 규제 없을 때 12% 차이가 있지만 규제 있을 때 0.5% 차이 줄었다. 성능 좋아졌다.
+
+# 4) 타깃/종속 클래스의 불균형( 레드/화이트 와인 개수/비율 다르다 )
+model = DecisionTreeClassifier(
+    max_depth=3 , min_samples_leaf=10 , criterion="gini" , random_state=42,
+    class_weight="balenced" # 클래스 빈도에 반비례하여 가중치를 자동 부여하여 불균형 보정
+)
+model.fit( X_train , Y_train )
+print( " Train Acc : " , model.score( X_train , Y_train ) ) # Accuracy
+print( "Test Acc : " , model.score( X_test , Y_test ) ) # Accuracy
+# Train Acc :  0.9978833942659227
+# Test Acc :  0.8669230769230769
+# 성능이 (5%) 떨어짐 
+
+# 5) 특성 중요도: feature_importances_
+print( model.feature_names_in_ )
+print( model.feature_importances_) # 분류모델에서 예측에 기여한 특성의 중요도 수치
+# ['alcohol','sugar'  ]
