@@ -36,10 +36,33 @@ plt.scatter( X_test_scaled[ : , 4], X_test_scaled[ : ,1] , c="red" , marker='*')
 # 산점도 [:,4]는 G3, [:,1]은 absences(결석일수)
 plt.show()
 # 4) 최적의 K(군집/그룹) 수 찾기 VS 지도학습( F1 분류 / R2 회귀 )
+from sklearn.metrics import silhouette_score
 sse_list = []
+sil_list = []
 for k in range( 2 , 20 ) : # range( 시작값 , 끝값-1 )
     k_teamp = KMeans( n_clusters=k , random_state=42 ) # K 반복마다 학습 모델 생성
     preds = k_teamp.fit_predict( X_train_scaled ) # 모델 학습/추론 동시에 , fit + predict
     sse_list.append( k_teamp.inertia_ ) # 군집 결과에 각 샘플과 중심점 거리 제곱의 합 저장
+    sil_list.append( silhouette_score( X_train_scaled , preds ) ) # 실루엣 점수를 저장
 plt.plot( range( 2, 20 ) , sse_list , marker='o' )
 plt.show()
+
+plt.plot( range( 2, 20 ) , sil_list , marker='o' )
+plt.show()
+
+# sse : 엘보우지점(기울기가 완만하게 꺾이는 변곡점) , 오차제곱합
+# 실루엣 : 높은 값일수록 이상적 , 응집도와 분리도
+# 두 차트 해석하여 최적의 K 해석
+# 최적 K 군집하기
+best_model = KMeans( n_clusters=5 )
+pred = best_model.fit_predict( X_train_scaled )
+print( pred[ :10] ) # [3 2 2 0 4 1 2 1 3 1]
+
+# 5) HDBSCAN # k-means 와 다르게 밀도 기반으로 군집 , 이상치(-1) 자동 탐지
+from sklearn.cluster import HDBSCAN
+# model = HDBSCAN( min_cluster_size=군집하기 위한 최소 데이터 수( 기본 값 5 ) , min_samples=군집 판별할 때 계산되는 이웃 수 )
+model = HDBSCAN( min_cluster_size=15 , min_samples=5 )
+pred = model.fit_predict( X_train_scaled )
+print( pred ) # 군집/그룹 4개 , 이상치 1개(-1)
+
+
